@@ -10,5 +10,5 @@ cover: /images/post/markerdown.jpg(可选:封面地址,可以是相对也可以�
 coverWidth: 1200(可选:封面宽度)
 coverHeight: 320(可选:封面高度)
 author: 文章作者(可选)
-from: 文章来源(可选)
+from: 文章来源
 ---
