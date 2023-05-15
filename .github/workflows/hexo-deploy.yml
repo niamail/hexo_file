@@ -34,10 +34,17 @@ jobs:
     - name: Install hexo dependencies
       # 下载 hexo-cli 脚手架及相关安装包
       run: |
-        git config --global init.defaultBranch main
         npm install -g hexo-cli
+        npm install hexo-deployer-git --save
         npm install
-
+        
+    - name: Setup ssh-private-key
+      run: |
+        mkdir -p /root/.ssh/
+        echo "${{ secrets. }}" > /root/.ssh/id_rsa
+        chmod 600 /root/.ssh/id_rsa
+        ssh-keyscan -t rsa github.com >> /root/.ssh/known_hosts
+        
     - name: Generate files
       # 编译 markdown 文件
       run: |
@@ -50,9 +57,4 @@ jobs:
         
       # 将编译后的博客文件推送到指定仓库
       run: |
-        cd ./public && git init && git add .
-        git config user.name ${{ secrets.USER_NAME }}
-        git config user.email ${{ secrets.USER_EMAIL }}
-        git add .
-        git commit -m "GitHub Actions Auto Builder at $(date +'%Y-%m-%d %H:%M:%S')"
-        git push "https://${{ secrets.ACCESS_TOKEN }}@$GITHUB_REPO" main:main
+        hexo deploy
