@@ -41,7 +41,6 @@ jobs:
     - name: Generate files
       # 编译 markdown 文件
       run: |
-        hexo clean
         hexo generate
 
     - name: Deploy hexo blog
@@ -56,4 +55,4 @@ jobs:
         git config user.email ${{ secrets.USER_EMAIL }}
         git add .
         git commit -m "GitHub Actions Auto Builder at $(date +'%Y-%m-%d %H:%M:%S')"
-        git push --force --quiet "https://${{ secrets.ACCESS_TOKEN }}@$GITHUB_REPO" main:main
+        git push "https://${{ secrets.ACCESS_TOKEN }}@$GITHUB_REPO" main:main
