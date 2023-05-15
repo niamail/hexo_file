@@ -49,6 +49,8 @@ jobs:
       # 编译 markdown 文件
       run: |
         hexo generate
+        pwd
+        ls -alh
 
     - name: Deploy hexo blog
       # 将编译后的博客文件推送到指定仓库
