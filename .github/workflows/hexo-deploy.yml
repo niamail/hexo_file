@@ -24,13 +24,6 @@ jobs:
       with:
         node-version: '18.x'
 
-    - name: Cache node modules
-      # 设置包缓存目录，避免每次下载
-      uses: actions/cache@v3
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-
     - name: Install hexo dependencies
       # 下载 hexo-cli 脚手架及相关安装包
       run: |
@@ -42,12 +35,15 @@ jobs:
       run: |
         mkdir -p ~/.ssh/
         echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
+        chmod 777 ~/.ssh/id_rsa
         ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
         
     - name: Generate files
       # 编译 markdown 文件
       run: |
+        git config --global init.defaultBranch main
+        git config --global user.email "${{ secrets.USER_EMAIL }}"
+        git config --global user.name "${{ secrets.USER_NAME }}"
         hexo g -d -m "Blog CI/CD"
         pwd
         ls -alh
