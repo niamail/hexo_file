@@ -60,4 +60,6 @@ jobs:
         cd ./public
         git init 
         git remote add origin git@github.com:niamail/niamail.github.io.git
-        git push --force origin main
+        git add .
+        git commit -m "Deploy hexo blog"
+        git push -u -f origin main
