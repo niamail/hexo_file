@@ -40,10 +40,10 @@ jobs:
         
     - name: Setup ssh-private-key
       run: |
-        mkdir -p /root/.ssh/
-        echo "${{ secrets.DEPLOY_KEY }}" > /root/.ssh/id_rsa
-        chmod 600 /root/.ssh/id_rsa
-        ssh-keyscan -t rsa github.com >> /root/.ssh/known_hosts
+        mkdir -p ~/.ssh/
+        echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
         
     - name: Generate files
       # 编译 markdown 文件
@@ -51,10 +51,6 @@ jobs:
         hexo generate
 
     - name: Deploy hexo blog
-      env: 
-        # Github 仓库
-        GITHUB_REPO: github.com/niamail/niamail.github.io
-        
       # 将编译后的博客文件推送到指定仓库
       run: |
         hexo deploy
