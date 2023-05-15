@@ -35,6 +35,7 @@ jobs:
       # 下载 hexo-cli 脚手架及相关安装包
       run: |
         npm install -g hexo-cli
+        npm install hexo-deployer-git --save
         npm install
         
     - name: Setup ssh-private-key
@@ -47,19 +48,6 @@ jobs:
     - name: Generate files
       # 编译 markdown 文件
       run: |
-        hexo generate
+        hexo g -d -m "Blog CI/CD"
         pwd
         ls -alh
-
-    - name: Deploy hexo blog
-      # 将编译后的博客文件推送到指定仓库
-      run: |
-        git config init.defaultBranch <name>
-        git config user.email "${{ secrets.USER_EMAIL }}"
-        git config user.name "${{ secrets.USER_NAME }}"
-        cd ./public
-        git init 
-        git remote add origin git@github.com:niamail/niamail.github.io.git
-        git add .
-        git commit -m "Deploy hexo blog"
-        git push -u -f origin main
