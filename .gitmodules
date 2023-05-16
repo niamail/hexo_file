@@ -1,0 +1,3 @@
+[submodule "themes/niamail"]
+	path = themes/niamail
+	url = https://github.com/niamail/niamail.git
