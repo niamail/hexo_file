@@ -40,7 +40,7 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
         
-    - name: Generate files
+    - name: Generate & Deploy files
       # 编译 markdown 文件
       run: |
         git config --global init.defaultBranch main
