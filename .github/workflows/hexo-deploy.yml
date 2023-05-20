@@ -17,8 +17,6 @@ jobs:
     steps:
     - name: Checkout codes
       uses: actions/checkout@v3
-      with: 
-        submodules: recursive
 
     - name: Setup node
       # 设置 node.js 环境
@@ -39,11 +37,15 @@ jobs:
         echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
-        
+
+    - name: Checkout submodules
+      run: |
+        git config --global init.defaultBranch main
+        git submodule update --init --recursive  
+
     - name: Generate & Deploy files
       # 编译 markdown 文件
       run: |
-        git config --global init.defaultBranch main
         git config --global user.email "${{ secrets.USER_EMAIL }}"
         git config --global user.name "${{ secrets.USER_NAME }}"
         hexo g -d
